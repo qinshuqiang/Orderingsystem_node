@@ -17,4 +17,6 @@ var user = require('./router/user.js');
 var order = require('./router/order.js');
 app.use('/user', user);
 app.use('/order', order);
-app.listen(8000)
+app.listen(8000, () => {
+    console.log('8000 in listen');
+})

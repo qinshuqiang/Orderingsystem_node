@@ -20,8 +20,6 @@ const router = new Router({
     }]
 })
 router.beforeEach((to, from, next) => {
-    console.log(localStorage.getItem("username"));
-    console.log(to);
     if (to.name == login) next()
     else {
         post("/user/checkUser", { username: localStorage.getItem("username") }).then(res => {

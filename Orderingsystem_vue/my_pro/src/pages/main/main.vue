@@ -2,27 +2,27 @@
   <div class="main">
     <div class="main-title">老铁们开始点餐吧~！</div>
     <div class="pro" v-for="(e, idx) in arr" :key="idx">
-      <div class="pro-name">
+      <div class="pro-name pro-item-title">
         {{ e.name }}
       </div>
       <div class="pro-list">
         <div class="pro-item" v-for="(item, i) in e.list" :key="i">
-          <div>{{ item.name }}</div>
-          <div @click="countClick(false, idx, i)">-</div>
-          <div>{{ item.value }}</div>
-          <div @click="countClick(true, idx, i)">+</div>
+          <div >{{ item.name }}</div>
+          <div class="pro-item-btn" @click="countClick(false, idx, i)">-</div>
+          <div  class="pro-item-count">{{ item.value }}</div>
+          <div class="pro-item-btn" @click="countClick(true, idx, i)">+</div>
           <div>{{ item.money }}</div>
         </div>
       </div>
       <div class="pro-list2" v-if="idx == 2">
-        <div class="pro-list2-name">双拼备注</div>
+        <div class="pro-list2-name">订单备注</div>
         <div class="pro-list2-name">
-          <input type="text" v-model="beizhu" />
+          <input type="text" v-model="beizhu"  placeholder="比如：加菜：咸鱼花肉+冬菇肉饼 .....   双拼 一份排骨拼鱼腩，一份排骨拼冬菇肉饼  ...." />
         </div>
       </div>
     </div>
     <div class="bottom">
-      <div class="bottom-left">总价：{{ sum }}</div>
+      <div class="bottom-left">总价：<span>{{ sum }}</span></div>
       <div class="bottom-right" @click="submit">提交哦</div>
     </div>
   </div>
@@ -210,7 +210,6 @@ export default {
     this.get(
       `order/getOrder?username=${localStorage.getItem("username")}`
     ).then((res) => {
-      console.log(res.data);
       let { arr } = this;
       if (res.data.status == 0 && res.data.data.length > 0) {
         arr.forEach((ele, index) =>
@@ -246,7 +245,7 @@ export default {
     },
     submit() {
       let { arr, sum, beizhu } = this;
-      if (sum == 0) return alert("貌似没选商品吧");
+      if (sum == 0) console.log(sum);
       let orderInfo = [];
       arr.forEach((item, i) => {
         if (i == 2) {
@@ -273,6 +272,28 @@ export default {
 };
 </script>
 <style scoped>
+.bottom div:nth-child(2){
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  color: #fff;
+  border-radius: 40px;
+}
+.bottom-left span{
+    font-size: 35px;
+}
+.pro-item-count{
+  width: 50px;
+}
+.pro-item-btn{
+  width: 20px;
+  height: 20px;
+  background-color: #eee;
+}
+.pro-item-title{
+  font-size: 35px;
+}
 .pro-list2-name input {
   width: 70%;
 }
